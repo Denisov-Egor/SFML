@@ -1,16 +1,19 @@
-﻿#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace sf;
 
 int main()
 {
-	RenderWindow window(VideoMode(640, 480), "SFML window");
+	RenderWindow window(VideoMode(640, 480), L"Отскоки");
 
 	CircleShape ball(20.f);
 	ball.setFillColor(Color::Red);
-	ball.setPosition(100.f, 100.f);
+	ball.setOrigin(20, 20);
 
-	Vector2f velocity(0.1f, 0.1f);
+	float x = 50;
+	float y = 150;
+	float x_speed = 0.1f;
+	float y_speed = 0.1f;
 
 	while (window.isOpen())
 	{
@@ -21,16 +24,21 @@ int main()
 				window.close();
 		}
 
-		ball.move(velocity);
+		x += x_speed;
+		y += y_speed;
+		if (x < 0 + ball.getRadius() || window.getSize().x - ball.getRadius() < x)
+		{
+			x_speed *= -1;
+		}
 
-		if (ball.getPosition().x + ball.getRadius() > window.getSize().x ||
-			ball.getPosition().x - ball.getRadius() < 0)
-			velocity.x = -velocity.x;
-		if (ball.getPosition().y + ball.getRadius() > window.getSize().y ||
-			ball.getPosition().y - ball.getRadius() < 0)
-			velocity.y = -velocity.y;
+		if (y < 0 + ball.getRadius() || window.getSize().y - ball.getRadius() < y)
+		{
+			y_speed *= -1;
+		}
 
-		window.clear();
+		ball.setPosition(x, y);
+
+		window.clear(Color::White);
 		window.draw(ball);
 		window.display();
 	}
