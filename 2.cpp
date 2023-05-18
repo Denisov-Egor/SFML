@@ -1,40 +1,41 @@
-﻿#include <SFML/Graphics.hpp>
-#include <cstdlib> // для rand и srand
-#include <ctime> // для time
+#include <SFML/Graphics.hpp>
+#include <cstdlib> 
+#include <ctime> 
+
+using namespace sf;
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(640, 480), "SFML window");
+	RenderWindow window(VideoMode(640, 480), "SFML window");
 
 	srand(time(NULL));
 
-	sf::RectangleShape block;
+	RectangleShape block;
 
 	while (window.isOpen())
 	{
-		sf::Event event;
+		Event event;
 		while (window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
+			if (event.type == Event::Closed)
 				window.close();
 		}
 
-		if (rand() % 100 == 1)
+		if (rand() % 200 == 1)
 		{
 			int blockSize = rand() % 100 + 50;
 			int xPos = rand() % (window.getSize().x - blockSize);
 
-			block.setSize(sf::Vector2f(blockSize, blockSize));
+			block.setSize(Vector2f(blockSize, blockSize));
 			block.setPosition(xPos, 0);
-			block.setFillColor(sf::Color::Green);
+			block.setFillColor(Color::Green);
 		}
 
-		block.move(0, 1);
+		block.move(0, 5);
 
 		window.clear();
 		window.draw(block);
 		window.display();
 	}
-
 	return 0;
 }
